@@ -66,7 +66,7 @@ const handleComment = async (e) => {
     const data = await res.json();
     setComments((prev) => [
       ...prev,
-      data.comment, // use the populated one from backend
+      data.comment,
     ]);
     setCommentText('');
   } catch (err) {
@@ -78,11 +78,11 @@ const handleComment = async (e) => {
     <div className="bg-white p-4 rounded shadow-md space-y-3">
       {/* Post Header */}
       <div className="flex items-center gap-3">
-        <Link href={`/profile/${post.author?._id}`} className="bg-blue-600 text-white w-10 h-10 flex items-center justify-center rounded-full text-lg font-bold">
+        <Link href={`/profile/${post.author?._id}`} className="bg-blue-600 text-white size-9 md:size-10 flex items-center justify-center rounded-full text-lg font-bold shadow-lg/20">
           {nameInitial}
         </Link>
         <div>
-          <Link href={`/profile/${post.author?._id}`} className="text-blue-700 font-semibold hover:underline">
+          <Link href={`/profile/${post.author?._id}`} className="text-blue-700 font-semibold hover:underline text-shadow-lg/10">
             {post.author?.name || 'Unknown'}
           </Link>
           <div className="text-xs text-gray-500">{formattedDate}</div>
@@ -90,7 +90,7 @@ const handleComment = async (e) => {
       </div>
 
       {/* Post Content */}
-      <p className="text-gray-800 text-sm md:text-base whitespace-pre-wrap">{post.content}</p>
+      <p className="text-gray-800 text-sm md:text-base break-words">{post.content}</p>
 
       {/* Actions */}
       <div className="flex gap-6 text-sm text-gray-600">
@@ -139,7 +139,7 @@ const handleComment = async (e) => {
                       </span>
                       <span className="text-xs text-gray-500">{date}</span>
                     </div>
-                    <p className="text-sm text-gray-700">{c.text}</p>
+                    <p className="text-sm text-gray-700 break-all">{c.text}</p>
                   </div>
                 </div>
               );

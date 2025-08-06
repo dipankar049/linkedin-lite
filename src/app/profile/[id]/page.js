@@ -35,27 +35,28 @@ export default function ProfilePage() {
   const nameInitial = userData.name?.[0]?.toUpperCase() || 'U';
 
   return (
-    <div className="min-h-screen bg-gray-100 py-10">
-      <div className="max-w-3xl mx-auto px-4 space-y-6">
-
-        {/* Profile Card */}
-        <div className="bg-white shadow-md rounded-lg p-6 flex items-center gap-6">
-          <div className="w-16 h-16 bg-blue-600 text-white flex items-center justify-center text-2xl font-bold rounded-full">
+    <div className="min-h-screen bg-gray-100">
+      
+      {/* Profile Banner */}
+      <div className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 py-10 sm:py-16 shadow-md">
+        <div className="max-w-4xl mx-auto px-6 flex items-center gap-6 text-white">
+          <div className="w-24 h-24 bg-white text-blue-600 flex items-center justify-center text-4xl font-bold rounded-full shadow-lg/20 border-4 border-white">
             {nameInitial}
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">{userData.name}</h1>
-            <p className="text-gray-600 text-sm mt-1">{userData.bio || 'No bio added.'}</p>
-            <p className="text-sm text-gray-500 mt-2">
+            <h1 className="text-3xl font-extrabold text-shadow-lg/10">{userData.name}</h1>
+            <p className="text-sm mt-1 text-shadow-lg/10">{userData.bio || 'No bio added.'}</p>
+            <p className="text-xs opacity-90 mt-2">
               📝 {userPosts.length} {userPosts.length === 1 ? 'Post' : 'Posts'}
             </p>
           </div>
         </div>
+      </div>
 
-        {/* Post Feed Header */}
+      {/* Post Feed Section */}
+      <div className="max-w-4xl mx-auto px-4 pt-4 sm:py-10 space-y-6">
         <h2 className="text-xl font-semibold text-gray-800">Recent Posts</h2>
 
-        {/* Posts List */}
         <div className="space-y-4">
           {userPosts.length > 0 ? (
             userPosts.map((post) => (

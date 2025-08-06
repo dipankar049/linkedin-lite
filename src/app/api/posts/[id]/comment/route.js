@@ -3,7 +3,7 @@ import Post from '@/models/Post';
 import { getUserFromToken } from '@/lib/auth';
 
 export async function POST(req, context) {
-  const { params } = await context;
+  const { params } = context;
   await dbConnect();
 
   const user = await getUserFromToken(req);

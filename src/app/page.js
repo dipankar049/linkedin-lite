@@ -49,8 +49,10 @@ export default function HomePage() {
 
   // Load on mount
   useEffect(() => {
-    fetchPosts();
-  }, []);
+    if (skip === 0) {
+      fetchPosts();
+    }
+  }, [skip]);
 
   // Infinite scroll observer
   useEffect(() => {
@@ -89,40 +91,44 @@ export default function HomePage() {
     if (res.ok) {
       setContent('');
       setPosts([]);
-      setSkip(0);
       setHasMore(true);
-      fetchPosts(); // Reload fresh
+      setSkip(0); // This triggers fetch via useEffect
     } else {
       alert(data.error || 'Something went wrong');
     }
   };
 
+
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-fixed bg-center bg-cover"
+      style={{
+      backgroundImage: 'linear-gradient(to bottom right, #d1d5db, #ffffff, #9CA3AF)',
+    }}>
       {/* Header */}
-      <header className="bg-white shadow-sm p-4 flex items-center justify-between px-6 sticky top-0 z-10">
-        <Link href="/">
-          <span className="text-2xl font-bold text-blue-600">LinkedIn Lite</span>
+      <header className="bg-white shadow-sm py-3 px-4 md:px-6 flex items-center justify-between sticky top-0 z-10">
+        <Link href="/" className="text-2xl md:text-3xl font-extrabold tracking-tight text-shadow-lg/10">
+          <span className="text-blue-600">LinkedIn</span>
+          <span className="text-gray-700 ml-1">Lite</span>
         </Link>
 
         <div className="flex items-center gap-4">
           {!user && (
             <>
-              <Link href="/login" className="text-blue-600 font-medium hover:underline">Login</Link>
-              <Link href="/register" className="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700">Register</Link>
+              <Link href="/login" className="text-blue-600 font-bold hover:underline text-shadow-lg/10">Login</Link>
+              <Link href="/register" className="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700 shadow-lg/20">Register</Link>
             </>
           )}
           {user && (
             <>
               <button
                 onClick={() => router.push(`/profile/${user._id}`)}
-                className="bg-blue-500 text-white w-9 h-9 rounded-full flex items-center justify-center text-lg font-semibold hover:bg-blue-600"
+                className="bg-blue-500 text-white size-8 md:size-9 rounded-full flex items-center justify-center text-lg font-semibold hover:bg-blue-600 shadow-lg/20"
               >
                 {user.name?.[0].toUpperCase() || 'U'}
               </button>
               <button
                 onClick={logout}
-                className="text-sm bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                className="text-sm bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 shadow-lg/20"
               >
                 Logout
               </button>
@@ -137,7 +143,7 @@ export default function HomePage() {
           <div className="bg-white p-3 rounded shadow-md mb-6">
             <form onSubmit={handlePost}>
               <div className="flex items-start gap-3">
-                <div className="bg-blue-600 text-white w-10 h-10 rounded-full flex items-center justify-center font-semibold text-lg">
+                <div className="bg-blue-600 text-white w-10 h-10 rounded-full flex items-center justify-center font-semibold text-lg shadow-lg/20">
                   {user.name?.[0]?.toUpperCase() || 'U'}
                 </div>
                 <textarea
@@ -151,7 +157,7 @@ export default function HomePage() {
               <div className="flex justify-end mt-2">
                 <button
                   type="submit"
-                  className="bg-blue-600 text-white text-sm px-4 py-1.5 rounded hover:bg-blue-700 transition"
+                  className="bg-blue-600 text-white text-sm px-4 py-1.5 rounded hover:bg-blue-700 transition shadow-lg/20"
                 >
                   Post
                 </button>
@@ -163,15 +169,20 @@ export default function HomePage() {
 
         {/* Posts Feed */}
         <div className="space-y-4">
-          {posts.map((post, index) => (
-  <PostCard key={post._id} post={post} />
-))}
+          {loading && posts.length === 0 ? (
+            <div className="flex justify-center py-10">
+              <div className="w-6 h-6 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+            </div>
+          ) : (
+            posts.map((post) => <PostCard key={post._id} post={post} />)
+          )}
         </div>
+
 
         {/* Loading + Observer */}
         <div ref={loaderRef} className="text-center py-4">
           {loading && <p>Loading more...</p>}
-          {!hasMore && <p className="text-gray-400">No more posts.</p>}
+          {!hasMore && <p className="text-white">No more posts.</p>}
         </div>
       </main>
     </div>
