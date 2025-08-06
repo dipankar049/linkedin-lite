@@ -1,3 +1,4 @@
+// lib/dbConnect.js
 import mongoose from 'mongoose';
 
 const MONGO_URI = process.env.MONGO_URI;
@@ -6,7 +7,12 @@ if (!MONGO_URI) {
   throw new Error('Please define MONGO_URI in .env.local');
 }
 
-let cached = global.mongoose || { conn: null, promise: null };
+// ✅ Ensure global cache is initialized ONCE
+let cached = global.mongoose;
+
+if (!cached) {
+  cached = global.mongoose = { conn: null, promise: null };
+}
 
 async function dbConnect() {
   if (cached.conn) return cached.conn;
