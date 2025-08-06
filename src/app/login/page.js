@@ -37,7 +37,7 @@ export default function LoginPage() {
       const data = await res.json();
 
       if (res.ok) {
-        login(data.user, data.token); // ✅ context updates + localStorage
+        login(data.user, data.token); // context updates + localStorage
         toast.success('Login successful!');
         setTimeout(() => router.push('/'), 1000); // small delay for toast
       } else {

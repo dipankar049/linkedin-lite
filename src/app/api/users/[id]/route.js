@@ -1,4 +1,3 @@
-// /api/users/[id]/route.js
 import dbConnect from '@/lib/dbConnect';
 import User from '@/models/User';
 import Post from '@/models/Post';
@@ -24,12 +23,12 @@ export async function GET(req, context) {
       content: post.content,
       likes: post.likes,
       author: post.author,
-      createdAt: post.createdAt.toISOString(), // use this instead of formatted
+      createdAt: post.createdAt.toISOString(),
       comments: post.comments.map((c) => ({
         _id: c._id,
         user: c.user,
         text: c.text,
-        createdAt: c.createdAt.toISOString(), // keep raw ISO
+        createdAt: c.createdAt.toISOString(),
       })),
     }));
 

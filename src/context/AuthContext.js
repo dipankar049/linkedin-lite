@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  // ✅ Login: update localStorage and state
+  // Login: update localStorage and state
   const login = (userData, tokenData) => {
     localStorage.setItem('user', JSON.stringify(userData));
     localStorage.setItem('token', tokenData);
@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
     setToken(tokenData);
   };
 
-  // ✅ Logout: clear localStorage and state
+  // Logout: clear localStorage and state
   const logout = () => {
     localStorage.removeItem('user');
     localStorage.removeItem('token');
